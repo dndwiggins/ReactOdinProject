@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+
+.DropDownComponentTop{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.Overall{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}

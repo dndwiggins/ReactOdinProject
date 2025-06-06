@@ -1,67 +1,72 @@
 import { useState } from "react";
 
-export default function Input({ label = 'hello', value = 'test'}){
 
-     return (
-    <label>
-      {label}
-      {' '}
-      <input
-        value={value}
-      
-      />
-    </label>
-  );
+ function PersonalInfo({name, setName, job, setJob, email, setEmail, phone, setPhone, city, setCity}){
 
-}
-
- function PersonalInfo(){
-  const [text, setText] = useState('');
-  const [active, setActive] = useState(false)
-
-  function handleChange(e) {
-    setText(e.target.value);
-  }
-
-  const handleClick = () => {
-    setActive(true)
-  };
-
-  if(!active){
-   return( <div>
-
-    <h1 onClick={handleClick}>Personal Information</h1>
-    </div>
-   );
-  }
-
+  function handleNameChange(e) {
+        setName(e.target.value);
+    }
+  function handleJobChange(e) {
+        setJob(e.target.value);
+    }
+  function handleEmailChange(e) {
+        setEmail(e.target.value);
+    }
+  function handlePhoneChange(e) {
+        setPhone(e.target.value);
+    }
+  function handleCityChange(e) {
+        setCity(e.target.value);
+    }
+ 
   return (
     <>
-      <Input
-        label="Full Name"
-        value={text}
-        onChange={handleChange}
-      />
-      <Input
-        label="Job Title"
-        value={text}
-        onChange={handleChange}
-      />
-       <Input
-        label="Email"
-        value={text}
-        onChange={handleChange}
-      />
-      <Input
-        label="Phone"
-        value={text}
-        onChange={handleChange}
-      /> <Input
-        label="City"
-        value={text}
-        onChange={handleChange}
-      />
+      <label>
+    Full Name
+    <input
+      type="text"
+      value={name}
+      onChange={handleNameChange}
+    />
+  </label>
+
+  <label>
+    Job Title
+    <input
+      type="text"
+      value={job}
+      onChange={handleJobChange}
+    />
+  </label>
+
+  <label>
+    Email
+    <input
+      type="email"
+      value={email}
+      onChange={handleEmailChange}
+    />
+  </label>
+
+  <label>
+    Phone
+    <input
+      type="tel"
+      value={phone}
+      onChange={handlePhoneChange}
+    />
+  </label>
+
+  <label>
+    City
+    <input
+      type="text"
+      value={city}
+      onChange={handleCityChange}
+    />
+  </label>
     </>
   );
 }
 
+export { PersonalInfo };
