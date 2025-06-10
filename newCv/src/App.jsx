@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { PersonalInfo } from './components/personal';
 import ProfessionalInfo from './components/proffesional';
+import { Education } from './components/Education';
 
 function App() {
   const [name, setName] = useState('Dean Dwiggins')
@@ -13,6 +14,10 @@ function App() {
   const [email, setEmail] = useState('dean@example.com');
   const [summary, setSummary] = useState('');
   const [jobDatas, setJobDatas] = useState([]);
+  const [school, setSchool] = useState('');
+  const [title, setTitle] = useState('');
+  const [startD, setStartD] = useState('');
+  const [endD, setEndD] = useState('');
 
   const handleProfData = (data) => {
     console.log(data);
@@ -45,6 +50,15 @@ function App() {
     title = "Summary"
     Component={<SummaryInfo summary={summary} setSummary={setSummary}/>}
     />
+    <DropDown2
+    title = "Education"
+    Component={<Education school = {school} setSchool={setSchool} title={title} setTitle={setTitle}
+      startD = {startD} setStartD={setStartD} endD={endD} setEndD={setEndD}
+
+    />}
+    
+    
+    />
     <DropDown3
   title="Professional Experiences"
   jobDatas={jobDatas}
@@ -63,6 +77,10 @@ function App() {
   email={email}
   summary={summary}
   jobDatas={jobDatas}
+  school={school}
+  title={title}
+  startD={startD}
+  endD={endD}
 />
    </div>
   )
@@ -102,6 +120,7 @@ function JobEntered({props, RemoveEntry, keyToRemove}){
     </div>
   );
 }
+
 
 function DropDown3({title, Component, jobDatas, RemoveEntry}){
   const [isVisible, setIsVisible] = useState(false);
@@ -214,8 +233,20 @@ function BasicDropDown({title,name,setName, job, setJob, email, setEmail, phone,
   );
 }
 
-function ResumeMain({firstName,job,phone,email,city,summary, jobDatas}){
-  return(
+function ResumeMain({
+  firstName,
+  job,
+  phone,
+  email,
+  city,
+  summary,
+  jobDatas,
+  school,
+  title,
+  startD,
+  endD,
+}) {
+  return (
     <div>
       <h1>{firstName}</h1>
       <h1>{job}</h1>
@@ -223,12 +254,16 @@ function ResumeMain({firstName,job,phone,email,city,summary, jobDatas}){
       <h1>{email}</h1>
       <h1>{city}</h1>
       <h1>Summary: {summary}</h1>
-      <JobCv jobDatas={jobDatas}/>
 
+      <h2>Education</h2>
+      <p><strong>School:</strong> {school}</p>
+      <p><strong>Title of Study:</strong> {title}</p>
+      <p><strong>Start Date:</strong> {startD}</p>
+      <p><strong>End Date:</strong> {endD}</p>
+
+      <JobCv jobDatas={jobDatas} />
     </div>
   );
-
-
 }
 
 
