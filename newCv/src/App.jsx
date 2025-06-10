@@ -19,6 +19,10 @@ function App() {
     setJobDatas(prev => [...prev, data]);
   };
 
+  function RemoveEntry(indexToRemove) {
+  setJobDatas(prev => prev.filter((_, index) => index !== indexToRemove));
+  }
+
 
 
   return (
@@ -44,7 +48,9 @@ function App() {
     <DropDown3
   title="Professional Experiences"
   jobDatas={jobDatas}
-  Component={<ProfessionalInfo onSubmitData={handleProfData} />}
+  RemoveEntry ={RemoveEntry}
+  Component={<ProfessionalInfo onSubmitData={handleProfData}
+   />}
 />
 
     </div>
@@ -56,24 +62,35 @@ function App() {
   city={city}
   email={email}
   summary={summary}
+  jobDatas={jobDatas}
 />
    </div>
   )
 }
 
-function JobCv(props) {
+function JobCv({jobDatas}) {
+
+    if (!jobDatas || jobDatas.length === 0) {
+    return <p>No job entries yet.</p>;
+  }
+
+
   return (
     <div className='JobCv'>
-      {Object.entries(props).map(([key, value]) => (
-        <p key={key}>
-          {value}
-        </p>
+      {jobDatas.map((job, index) => (
+        <div key={index}>
+          {Object.entries(job).map(([key, value]) => (
+            <p key={key}>
+              <strong>{key}:</strong> {value}
+            </p>
+          ))}
+        </div>
       ))}
     </div>
   );
 }
-
-function JobEntered({props}){
+//key not defined because it is outside map funciton need to find a way to remove everything, so assign everything to a key
+function JobEntered({props, RemoveEntry, keyToRemove}){
   return (
     <div className='JobEntered'>
       {Object.entries(props).map(([key, value]) => (
@@ -81,12 +98,12 @@ function JobEntered({props}){
           {value}
         </p>
       ))}
-      <button>Remove</button>
+      <button onClick={() => RemoveEntry(keyToRemove)}>Remove</button>
     </div>
   );
 }
 
-function DropDown3({title, Component, jobDatas}){
+function DropDown3({title, Component, jobDatas, RemoveEntry}){
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
 
@@ -109,18 +126,30 @@ function DropDown3({title, Component, jobDatas}){
         {isVisible ? 'Less' : 'More'}
       </button>
 </div>
-{isVisible && <>  
+{isVisible && (
+  <>
     {jobDatas.length !== 0 &&
-  jobDatas.map((data, index) => (
-    <JobEntered key={index} props={data} />
-  ))
-}
+      jobDatas.map((data, index) => (
+        <JobEntered
+          key={index}
+          props={data}
+          keyToRemove={index}
+          RemoveEntry={RemoveEntry}
+        />
+      ))
+    }
+
+    <button onClick={toggle2}>Add New Item</button>
+    {isVisible2 && Component}
+  </>
+)}
+
+
+    
+
   
 
-<button onClick={toggle2}>Add New Item
-  </button>
-  {isVisible2 && Component}
-</>}
+
 </div>
   );
 }
@@ -185,7 +214,7 @@ function BasicDropDown({title,name,setName, job, setJob, email, setEmail, phone,
   );
 }
 
-function ResumeMain({firstName,job,phone,email,city,summary}){
+function ResumeMain({firstName,job,phone,email,city,summary, jobDatas}){
   return(
     <div>
       <h1>{firstName}</h1>
@@ -194,6 +223,7 @@ function ResumeMain({firstName,job,phone,email,city,summary}){
       <h1>{email}</h1>
       <h1>{city}</h1>
       <h1>Summary: {summary}</h1>
+      <JobCv jobDatas={jobDatas}/>
 
     </div>
   );
